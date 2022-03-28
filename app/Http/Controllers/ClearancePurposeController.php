@@ -14,7 +14,17 @@ class ClearancePurposeController extends Controller
 {
     
     public function purposeList(Request $request) {
-        $purposes = new ClearancePurpose;
+        $purposes = ClearancePurpose::select(
+            'clearance_purpose.id',
+            'clearance_purpose.clearance_type_id',
+            'clearance_type.clearance_name as clearance_type_desc',
+            'clearance_purpose.clearance_category_id',
+            'clearance_category.description as clearance_category_desc',
+            'clearance_purpose.purpose',
+            'clearance_purpose.created_at'
+        )
+        ->leftJoin('clearance_type', 'clearance_type.id', 'clearance_purpose.clearance_type_id')
+        ->leftJoin('clearance_category', 'clearance_category.id', 'clearance_purpose.clearance_category_id');
 
         if ($request->clearance_type_id) {
             $purposes = $purposes->where("clearance_purpose.clearance_type_id", $request->clearance_type_id);
