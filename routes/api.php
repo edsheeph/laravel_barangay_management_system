@@ -315,6 +315,7 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::post('clearance/purpose/update', [ClearancePurposeController::class, 'update']);
     Route::post('clearance/purpose/delete', [ClearancePurposeController::class, 'delete']);
     Route::get('clearance/purpose/{id}', [ClearancePurposeController::class, 'show']);
+    Route::get('clearance/purposes', [ClearancePurposeController::class, 'purposeList']);
 
     #Clearance Template
     Route::post('clearance/template', [ClearanceTemplateController::class, 'store']);

@@ -12,6 +12,35 @@ use App\Models\ClearancePurpose;
 
 class ClearancePurposeController extends Controller
 {
+    
+    public function purposeList(Request $request) {
+        $purposes = new ClearancePurpose;
+
+        if ($request->clearance_type_id) {
+            $purposes = $purposes->where("clearance_purpose.clearance_type_id", $request->clearance_type_id);
+        }
+
+        if ($request->clearance_category_id) {
+            $purposes = $purposes->where("clearance_purpose.clearance_category_id", $request->clearance_category_id);
+        }
+
+        if ($request->barangay_id) {
+            $purposes = $purposes->where("clearance_purpose.barangay_id", $request->barangay_id);
+        }
+
+        $purposes = $purposes->paginate(
+            (int) $request->get('per_page', 10),
+            ['*'],
+            'page',
+            (int) $request->get('page', 1)
+        );
+
+        return customResponse()
+            ->message("Purpose List.")
+            ->data($purposes)
+            ->success()
+            ->generate();
+    }
 
     public function store(Request $request){
 
