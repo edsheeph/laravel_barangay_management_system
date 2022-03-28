@@ -58,10 +58,10 @@ class ClearanceTemplateController extends Controller
         }
 
         $clearanceData = ClearanceType::find($request->clearance_type_id);
-        if(!empty($clearanceData)){
+        if(empty($clearanceData)){
             return customResponse()
                 ->data(null)
-                ->message("Clearance type exist.")
+                ->message("Type not found.")
                 ->success()
                 ->generate();
         }
