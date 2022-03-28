@@ -548,20 +548,27 @@ class ClearanceRequestController extends Controller
             ->generate();
         }
 
-        $name = $userData->first_name.' '.$userData->middle_name.' '.$userData->last_name;
+        $name = $userData->first_name . (!empty($userData->middle_name) ? " ". $userData->middle_name . " " : " ") . $userData->last_name;
         $address = $userData->address;
 
         $purpose = "This is to certify that Mr ./Ms. /Mrs. <u>". $name ."</u> whose signature appears below, legal age, married/single Filipino and a bonafide resident of <u>". $address ."</u> is known to me personally to be a person of good moral character, peaceful, and law-abiding citizen and that he/she has no derogatory records as fas as this barangay is concerned.";
         $purposeData = ClearancePurpose::where("barangay_id",$request->barangay_id)->where("clearance_category_id",$request->clearance_category_id)->where("clearance_type_id",$request->clearance_type_id)->first();
         if(!empty($purposeData)){
             $purpose = $purposeData->purpose;
-            $purpose = str_replace("{name}","<u>".$name."</u>",$purpose);
-            $purpose = str_replace("{address}","<u>".$address."</u>",$purpose);
+            $purpose = str_replace("{Full Name}", "<u>".$name."</u>", $purpose);
+
+            $purpose = str_replace("{First Name}", "<u>".$userData->first_name."</u>", $purpose);
+            $purpose = str_replace("{Middle Name}", "<u>".$userData->middle_name."</u>", $purpose);
+            $purpose = str_replace("{Last Name}", "<u>".$userData->last_name."</u>", $purpose);
+
+            $purpose = str_replace("{Address}", "<u>".$userData->address."</u>", $purpose);
+            $purpose = str_replace("{Contact Number}", "<u>".$userData->contact_no."</u>", $purpose);
+            $purpose = str_replace("{Email}", "<u>".$userData->email."</u>", $purpose);
+            $purpose = str_replace("{Birth Day}", "<u>".(date("F d, Y", strtotime($userData->birth_date)))."</u>", $purpose);
         }
 
         $clearanceRequest = new ClearanceRequestClass;
         $template = $clearanceRequest->getTemplate($request);
-        #dd($template);
 
 
         $data = array(
@@ -578,8 +585,8 @@ class ClearanceRequestController extends Controller
 
         $pdf = PDF::loadView('report.clearance.clearance1', $data);
 
-        return $pdf->download('clearance.pdf');
-    #    return $pdf->download('clearance.pdf')->getOriginalContent();
+        // return $pdf->download('clearance.pdf');
+        return $pdf->download('clearance.pdf')->getOriginalContent();
 
     }
 
