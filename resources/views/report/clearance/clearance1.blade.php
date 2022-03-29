@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hi</title>
+    <title>Clearance</title>
 </head>
 <style>
     .center{
