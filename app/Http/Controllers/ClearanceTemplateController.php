@@ -235,7 +235,8 @@ class ClearanceTemplateController extends Controller
         if(!empty($imageData)){
             foreach($imageData as $row){
                 $path = $row->file_path.'/'.$row->file_name;
-                $path = Storage::url($path);
+                $path = str_replace("public/", "/", $path);
+                // $path = Storage::url($path);
                 $return[] = array(
                     'id' => $row->id,
                     'description' => $row->description,
