@@ -309,8 +309,11 @@ class ClearanceRequestController extends Controller
 
             $return = array(
                 'id' => $clearanceData->id,
+                'category_id' => $clearanceData->category_id,
                 'category' => $clearanceData->category->description,
+                'barangay_id' => $clearanceData->barangay_id,
                 'barangay' => $clearanceData->barangay->description,
+                'clearance_type_id' => $clearanceData->clearance_type_id,
                 'clearance_type' => $clearanceData->clearanceType->clearance_name,
                 'user' => $userFullName,
                 'payment_method' => $clearanceData->paymentMethod->description,
