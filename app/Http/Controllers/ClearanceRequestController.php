@@ -567,7 +567,7 @@ class ClearanceRequestController extends Controller
             $purpose = str_replace("{Address}", "<u>".$userData->address."</u>", $purpose);
             $purpose = str_replace("{Contact Number}", "<u>".$userData->contact_no."</u>", $purpose);
             $purpose = str_replace("{Email}", "<u>".$userData->email."</u>", $purpose);
-            $purpose = str_replace("{Birth Day}", "<u>".(date("F d, Y", strtotime($userData->birth_date)))."</u>", $purpose);
+            $purpose = str_replace("{Birthday}", "<u>".(date("F d, Y", strtotime($userData->birth_date)))."</u>", $purpose);
         }
 
         $clearanceRequest = new ClearanceRequestClass;

@@ -73,7 +73,7 @@
 
         <div class="toWhomStyle"><b>TO WHOM IT MAY CONCERN</b></div>
         <p style="line-height:1.5"><b>
-            {{ $purpose }}
+            {!! $purpose !!}
         </b>
         </p>
 
