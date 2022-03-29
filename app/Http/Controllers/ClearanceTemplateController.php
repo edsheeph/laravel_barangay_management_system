@@ -227,6 +227,48 @@ class ClearanceTemplateController extends Controller
 
     }
 
+    public function templateList(Request $request) {
+        $templates = ClearanceTemplate::select(
+            'clearance_template.id',
+            'clearance_template.barangay_id',
+            'barangays.description as barangay_desc',
+            'clearance_template.clearance_type_id',
+            'clearance_type.clearance_name as clearance_type_desc',
+            'clearance_template.clearance_category_id',
+            'clearance_category.description as clearance_category_desc',
+            'clearance_template.template_image_id',
+            'clearance_template.created_at'
+        )
+        ->leftJoin('barangays', 'barangays.id', 'clearance_template.barangay_id')
+        ->leftJoin('clearance_type', 'clearance_type.id', 'clearance_template.clearance_type_id')
+        ->leftJoin('clearance_category', 'clearance_category.id', 'clearance_template.clearance_category_id')
+        ->with("templateImg");
+
+        if ($request->clearance_type_id) {
+            $templates = $templates->where("clearance_template.clearance_type_id", $request->clearance_type_id);
+        }
+
+        if ($request->clearance_category_id) {
+            $templates = $templates->where("clearance_template.clearance_category_id", $request->clearance_category_id);
+        }
+
+        if ($request->barangay_id) {
+            $templates = $templates->where("clearance_template.barangay_id", $request->barangay_id);
+        }
+
+        $templates = $templates->paginate(
+            (int) $request->get('per_page', 10),
+            ['*'],
+            'page',
+            (int) $request->get('page', 1)
+        );
+
+        return customResponse()
+            ->message("Clearance Tempaltes.")
+            ->data($templates)
+            ->success()
+            ->generate();
+    }
 
     public function templateImageList(Request $request){
 

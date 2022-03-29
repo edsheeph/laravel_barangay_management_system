@@ -318,12 +318,14 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::get('clearance/purposes', [ClearancePurposeController::class, 'purposeList']);
 
     #Clearance Template
+    Route::get('clearance/templates', [ClearanceTemplateController::class, 'templateList']);
+    Route::get('clearance/template/images', [ClearanceTemplateController::class, 'templateImageList']);
     Route::post('clearance/template', [ClearanceTemplateController::class, 'store']);
     Route::get('clearance/template/{id}/edit', [ClearanceTemplateController::class, 'edit']);
     Route::post('clearance/template/update', [ClearanceTemplateController::class, 'update']);
     Route::post('clearance/template/delete', [ClearanceTemplateController::class, 'delete']);
     Route::get('clearance/template/{id}', [ClearanceTemplateController::class, 'show']);
-    Route::get('clearance/templates', [ClearanceTemplateController::class, 'templateImageList']);
+    
 
 
 
