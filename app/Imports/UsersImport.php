@@ -4,6 +4,10 @@ namespace App\Imports;
 
 use Hash;
 use Throwable;
+use App\Models\MedicalHistoryVaccine;
+use App\Models\MedicalHistoryDisease;
+use App\Models\MedicalHistory;
+use App\Models\OtherData;
 use App\Models\AddressData;
 use App\Models\Barangay;
 use App\Models\BarangayIDSequence;
@@ -97,6 +101,61 @@ class UsersImport implements ToCollection, WithHeadingRow, SkipsOnError, WithVal
                 $addressData->secondary_id_path = "";
                 $addressData->secondary_id_name = "";
                 $addressData->save();
+
+                $otherData = new OtherData;
+                $otherData->user_id = $user->id;
+                $otherData->disabled = !empty($row['disabled']) ? $row['disabled'] : 0;
+                $otherData->community = !empty($row['community']) ? $row['community'] : 0;
+                $otherData->is_voter = !empty($row['is_voter']) ? $row['is_voter'] : 0;
+                $otherData->is_single_parent = !empty($row['is_single_parent']) ? $row['is_single_parent'] : 0;
+                $otherData->save();
+
+                $medicalHistoryData = new MedicalHistory;
+                $medicalHistoryData->height = !empty($row['height']) ? $row['height'] : "";
+                $medicalHistoryData->weight = !empty($row['weight']) ? $row['weight'] : "";
+                $medicalHistoryData->blood_type = $row['blood_type'];
+                $medicalHistoryData->smoke_no = !empty($request->smoke_no) ? $request->smoke_no : "";
+                $medicalHistoryData->smoke_status = !empty($row['smoke_status']) ? $row['smoke_status'] : 0;
+                $medicalHistoryData->alcohol_no = !empty($request->alcohol_no) ? $request->alcohol_no : "";
+                $medicalHistoryData->alcohol_status = !empty($row['alcohol_status']) ? $row['alcohol_status'] : 0;
+                $medicalHistoryData->comorbidity = !empty($request->comorbidity) ? $request->comorbidity : 0;
+                $medicalHistoryData->other_medical_history = !empty($request->other_medical_history) ? $request->other_medical_history : "";
+                $medicalHistoryData->allergies = !empty($request->allergies) ? $request->allergies : "";
+                $medicalHistoryData->save();
+
+                if (!empty($row['disease_id'])) {
+                    $row['disease_id'] = explode(",", $row['disease_id']);
+
+                    MedicalHistoryDisease::where("medical_history_id", $medicalHistoryData->id)->each(function($row) {
+                        $row->delete();
+                    });
+            
+                    foreach ($row['disease_id'] as $key => $value) {
+                        if (!empty($value)) {
+                            $medHistoryDiseaseData = new MedicalHistoryDisease;
+                            $medHistoryDiseaseData->medical_history_id = $medicalHistoryData->id;
+                            $medHistoryDiseaseData->disease_id = $value;
+                            $medHistoryDiseaseData->save();
+                        }
+                    }
+                }
+
+                if (!empty($row['vaccination'])) {
+                    $row['vaccination'] = explode(",", $row['vaccination']);
+
+                    MedicalHistoryVaccine::where("medical_history_id", $medicalHistoryData->id)->each(function($row) {
+                        $row->delete();
+                    });
+            
+                    foreach ($row['vaccination'] as $key => $value) {
+                        if (!empty($value)) {
+                            $medicalHistoryVaccine = new MedicalHistoryVaccine;
+                            $medicalHistoryVaccine->medical_history_id = $medicalHistoryData->id;
+                            $medicalHistoryVaccine->vaccine_id = $value;
+                            $medicalHistoryVaccine->save();
+                        }
+                    }
+                }
             }
         }
     }
