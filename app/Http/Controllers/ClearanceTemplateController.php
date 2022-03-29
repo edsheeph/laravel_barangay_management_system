@@ -78,7 +78,6 @@ class ClearanceTemplateController extends Controller
         $clearanceTemplate = ClearanceTemplate::where("clearance_type_id", $request->clearance_type_id)
             ->where("clearance_category_id", $request->clearance_category_id)
             ->where("barangay_id", $request->barangay_id)
-            ->where("template_image_id", $request->template_image_id)
             ->first();
         if(empty($clearanceData)){
             return customResponse()
