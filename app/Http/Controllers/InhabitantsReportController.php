@@ -249,7 +249,7 @@ class InhabitantsReportController extends Controller
                 $employments['students']++;
             } 
 
-            if ($residence->employment_type == 3) {
+            if ($residence->employment_type == 4) {
                 $employments['unemployed']++;
             } else {
                 $employments['employed']++;
