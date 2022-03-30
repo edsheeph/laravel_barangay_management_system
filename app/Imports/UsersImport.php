@@ -124,18 +124,6 @@ class UsersImport implements ToCollection, WithHeadingRow, SkipsOnError, WithVal
                 $medicalHistoryData->allergies = !empty($row['allergies']) ? $row['allergies'] : "";
                 $medicalHistoryData->save();
 
-                $employmentData = new EmploymentData;
-                $employmentData->user_id = $user->id;
-                $employmentData->employment_type = $row['employment_type'];
-                $employmentData->usual_occupation_id = $row['usual_occupation_id'];
-                $employmentData->place_work_type = 3;
-                $employmentData->place_work_type_specify = !empty($row['place_work_type_specify']) ? $row['place_work_type_specify'] : "";
-                $employmentData->employment = !empty($row['employment']) ? $row['employment'] : "";
-                $employmentData->employment_address = !empty($row['employment_address']) ? $row['employment_address'] : "";
-                $employmentData->monthly_income = !empty($row['monthly_income']) ? $row['monthly_income'] : 0;
-                $employmentData->annual_income = !empty($row['annual_income']) ? $row['annual_income'] : 0;
-                $employmentData->save();
-
                 if (!empty($row['disease_id'])) {
                     $row['disease_id'] = explode(",", $row['disease_id']);
 
@@ -169,6 +157,18 @@ class UsersImport implements ToCollection, WithHeadingRow, SkipsOnError, WithVal
                         }
                     }
                 }
+
+                $employmentData = new EmploymentData;
+                $employmentData->user_id = $user->id;
+                $employmentData->employment_type = $row['employment_type'];
+                $employmentData->usual_occupation_id = $row['usual_occupation_id'];
+                $employmentData->place_work_type = 3;
+                $employmentData->place_work_type_specify = !empty($row['place_work_type_specify']) ? $row['place_work_type_specify'] : "";
+                $employmentData->employment = !empty($row['employment']) ? $row['employment'] : "";
+                $employmentData->employment_address = !empty($row['employment_address']) ? $row['employment_address'] : "";
+                $employmentData->monthly_income = !empty($row['monthly_income']) ? $row['monthly_income'] : 0;
+                $employmentData->annual_income = !empty($row['annual_income']) ? $row['annual_income'] : 0;
+                $employmentData->save();
             }
         }
     }
