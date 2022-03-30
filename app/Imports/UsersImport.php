@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use Hash;
 use Throwable;
+use App\Models\EmploymentData;
 use App\Models\MedicalHistoryVaccine;
 use App\Models\MedicalHistoryDisease;
 use App\Models\MedicalHistory;
@@ -114,14 +115,26 @@ class UsersImport implements ToCollection, WithHeadingRow, SkipsOnError, WithVal
                 $medicalHistoryData->height = !empty($row['height']) ? $row['height'] : "";
                 $medicalHistoryData->weight = !empty($row['weight']) ? $row['weight'] : "";
                 $medicalHistoryData->blood_type = $row['blood_type'];
-                $medicalHistoryData->smoke_no = !empty($request->smoke_no) ? $request->smoke_no : "";
+                $medicalHistoryData->smoke_no = !empty($row['smoke_no']) ? $row['smoke_no'] : "";
                 $medicalHistoryData->smoke_status = !empty($row['smoke_status']) ? $row['smoke_status'] : 0;
-                $medicalHistoryData->alcohol_no = !empty($request->alcohol_no) ? $request->alcohol_no : "";
+                $medicalHistoryData->alcohol_no = !empty($row['alcohol_no']) ? $row['alcohol_no'] : "";
                 $medicalHistoryData->alcohol_status = !empty($row['alcohol_status']) ? $row['alcohol_status'] : 0;
-                $medicalHistoryData->comorbidity = !empty($request->comorbidity) ? $request->comorbidity : 0;
-                $medicalHistoryData->other_medical_history = !empty($request->other_medical_history) ? $request->other_medical_history : "";
-                $medicalHistoryData->allergies = !empty($request->allergies) ? $request->allergies : "";
+                $medicalHistoryData->comorbidity = !empty($row['comorbidity']) ? $row['comorbidity'] : 0;
+                $medicalHistoryData->other_medical_history = !empty($row['other_medical_history']) ? $row['other_medical_history'] : "";
+                $medicalHistoryData->allergies = !empty($row['allergies']) ? $row['allergies'] : "";
                 $medicalHistoryData->save();
+
+                $employmentData = new EmploymentData;
+                $employmentData->user_id = $user->id;
+                $employmentData->employment_type = $row['employment_type'];
+                $employmentData->usual_occupation_id = $row['usual_occupation_id'];
+                $employmentData->place_work_type = 3;
+                $employmentData->place_work_type_specify = !empty($row['place_work_type_specify']) ? $row['place_work_type_specify'] : "";
+                $employmentData->employment = !empty($row['employment']) ? $row['employment'] : "";
+                $employmentData->employment_address = !empty($row['employment_address']) ? $row['employment_address'] : "";
+                $employmentData->monthly_income = !empty($row['monthly_income']) ? $row['monthly_income'] : 0;
+                $employmentData->annual_income = !empty($row['annual_income']) ? $row['annual_income'] : 0;
+                $employmentData->save();
 
                 if (!empty($row['disease_id'])) {
                     $row['disease_id'] = explode(",", $row['disease_id']);
