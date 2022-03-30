@@ -259,21 +259,21 @@ class InhabitantsReportController extends Controller
 
     private function returnResponse($params) {
         return [
-            array(
+            'population' => array(
                 'description' => 'Total Population',
                 'count' => $params['population']
             ),
-            array(
+            'males' => array(
                 'description' => 'by Male',
                 'count' => $params['males']
             ),
-            array(
+            'females' => array(
                 'description' => 'by Female',
                 'count' => $params['females']
             ),
-            array(
+            'population_by_age_group' => array(
                 'description' => 'Population by age group',
-                'age_group' => [
+                'group' => [
                     array(
                         'description' => 'Children',
                         'count' => $params['ages']['children']
@@ -292,25 +292,25 @@ class InhabitantsReportController extends Controller
                     ),
                 ]
             ),
-            array(
+            'pwd' => array(
                 'description' => 'PWD',
                 'count' => $params['disables']
             ),
-            array(
+            'single_parents' => array(
                 'description' => 'Single Parent',
                 'count' => $params['singeParents']
             ),
-            array(
+            'lgbtq' => array(
                 'description' => 'LGBTQ',
                 'count' => $params['community']
             ),
-            array(
+            'voters' => array(
                 'description' => 'Voters',
                 'count' => $params['voters']
             ),
-            array(
+            'population_by_employment' => array(
                 'description' => 'Population by employment',
-                'employment_group' => [
+                'group' => [
                     array(
                         'description' => 'Students',
                         'count' => $params['employments']['students']
@@ -325,10 +325,82 @@ class InhabitantsReportController extends Controller
                     ),
                 ]
             ),
-            array(
+            'population_by_barangay' => array(
                 'description' => 'Population by barangay',
                 'barangay_group' => $params['barangays']
-            ),
+            )
         ];
+        // return [
+        //     array(
+        //         'description' => 'Total Population',
+        //         'count' => $params['population']
+        //     ),
+        //     array(
+        //         'description' => 'by Male',
+        //         'count' => $params['males']
+        //     ),
+        //     array(
+        //         'description' => 'by Female',
+        //         'count' => $params['females']
+        //     ),
+        //     array(
+        //         'description' => 'Population by age group',
+        //         'age_group' => [
+        //             array(
+        //                 'description' => 'Children',
+        //                 'count' => $params['ages']['children']
+        //             ),
+        //             array(
+        //                 'description' => 'Youth',
+        //                 'count' => $params['ages']['youth']
+        //             ),
+        //             array(
+        //                 'description' => 'Adults',
+        //                 'count' => $params['ages']['adults']
+        //             ),
+        //             array(
+        //                 'description' => 'Seniors',
+        //                 'count' => $params['ages']['seniors']
+        //             ),
+        //         ]
+        //     ),
+        //     array(
+        //         'description' => 'PWD',
+        //         'count' => $params['disables']
+        //     ),
+        //     array(
+        //         'description' => 'Single Parent',
+        //         'count' => $params['singeParents']
+        //     ),
+        //     array(
+        //         'description' => 'LGBTQ',
+        //         'count' => $params['community']
+        //     ),
+        //     array(
+        //         'description' => 'Voters',
+        //         'count' => $params['voters']
+        //     ),
+        //     array(
+        //         'description' => 'Population by employment',
+        //         'employment_group' => [
+        //             array(
+        //                 'description' => 'Students',
+        //                 'count' => $params['employments']['students']
+        //             ),
+        //             array(
+        //                 'description' => 'Unemployed',
+        //                 'count' => $params['employments']['unemployed']
+        //             ),
+        //             array(
+        //                 'description' => 'Employed',
+        //                 'count' => $params['employments']['employed']
+        //             ),
+        //         ]
+        //     ),
+        //     array(
+        //         'description' => 'Population by barangay',
+        //         'barangay_group' => $params['barangays']
+        //     ),
+        // ];
     }
 }
