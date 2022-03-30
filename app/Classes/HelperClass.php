@@ -455,15 +455,15 @@ class HelperClass
     public function getRadioVoterChoices() {
         $array = array(
             [
-                'id' => 0,
+                'id' => 1,
                 'description' => 'No'
             ],
             [
-                'id' => 1,
+                'id' => 2,
                 'description' => 'Yes'
             ],
             [
-                'id' => 2,
+                'id' => 3,
                 'description' => 'Yes, but outside Malabon'
             ]
         );
