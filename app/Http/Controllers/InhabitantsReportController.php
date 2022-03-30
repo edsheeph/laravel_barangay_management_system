@@ -327,7 +327,7 @@ class InhabitantsReportController extends Controller
             ),
             'population_by_barangay' => array(
                 'description' => 'Population by barangay',
-                'barangay_group' => $params['barangays']
+                'group' => $params['barangays']
             )
         ];
         // return [
