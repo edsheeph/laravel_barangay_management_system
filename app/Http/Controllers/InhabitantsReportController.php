@@ -276,18 +276,22 @@ class InhabitantsReportController extends Controller
                 'group' => [
                     array(
                         'description' => 'Children',
+                        'sub_description' => '0 - 14',
                         'count' => $params['ages']['children']
                     ),
                     array(
                         'description' => 'Youth',
+                        'sub_description' => '15 - 24',
                         'count' => $params['ages']['youth']
                     ),
                     array(
                         'description' => 'Adults',
+                        'sub_description' => '25 - 64',
                         'count' => $params['ages']['adults']
                     ),
                     array(
                         'description' => 'Seniors',
+                        'sub_description' => '65 - above',
                         'count' => $params['ages']['seniors']
                     ),
                 ]
