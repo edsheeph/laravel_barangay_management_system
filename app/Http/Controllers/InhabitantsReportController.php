@@ -210,6 +210,7 @@ class InhabitantsReportController extends Controller
 
         $barangayList = [];
         foreach ($barangays as $row) {
+            $population = $this->getResidencePopulation($row->id);
             $males = $this->getResidencePopulationByMale($row->id);
             $females = $this->getResidencePopulationByFemale($row->id);
             $ages = $this->getResidencePopulationByAge($row->id);
@@ -220,6 +221,7 @@ class InhabitantsReportController extends Controller
                 'females' => $females,
                 'voters' => $voters,
                 'seniors' => $ages['seniors'],
+                'population' => $population,
             );
         }
 
