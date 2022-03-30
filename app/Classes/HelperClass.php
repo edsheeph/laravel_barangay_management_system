@@ -456,11 +456,11 @@ class HelperClass
         $array = array(
             [
                 'id' => 1,
-                'description' => 'No'
+                'description' => 'Yes'
             ],
             [
                 'id' => 2,
-                'description' => 'Yes'
+                'description' => 'No'
             ],
             [
                 'id' => 3,
