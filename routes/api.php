@@ -369,6 +369,7 @@ Route::get('usual-occupation/list', [EmploymentDataController::class, 'getUsualO
 Route::get('class-worker/list', [EmploymentDataController::class, 'getClassWorkerList']);
 Route::get('work-affiliation/list', [EmploymentDataController::class, 'getWorkAffiliationList']);
 Route::get('radio/place-work-type/list', [EmploymentDataController::class, 'getPlaceWorkType']);
+Route::get('/monthly-income/list', [EmploymentDataController::class, 'getMonthlyIncomeList']);
 
 Route::get('education-level/list', [EducationalDataController::class, 'getEducationLevel']);
 Route::get('course/list', [EducationalDataController::class, 'getCourseList']);

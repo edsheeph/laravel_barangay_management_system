@@ -119,4 +119,41 @@ class EmploymentDataController extends Controller
             ->success()
             ->generate();
     }
+
+    public function getMonthlyIncomeList(Request $request) {
+        return customResponse()
+            ->message("List of monthly income.")
+            ->data([
+                array(
+                    'id' => 1,
+                    'description' => 'Less than ₱10,000'
+                ),
+                array(
+                    'id' => 2,
+                    'description' => '₱10,000 to ₱20,000'
+                ),
+                array(
+                    'id' => 3,
+                    'description' => '₱20,001 to ₱40,000'
+                ),
+                array(
+                    'id' => 4,
+                    'description' => '₱40,001 to ₱70,000'
+                ),
+                array(
+                    'id' => 5,
+                    'description' => '₱70,001 to ₱130,000'
+                ),
+                array(
+                    'id' => 6,
+                    'description' => '₱130,001 to ₱200,000'
+                ),
+                array(
+                    'id' => 7,
+                    'description' => 'At least ₱200,000 and up'
+                ),
+            ])
+            ->success()
+            ->generate();
+    }
 }
