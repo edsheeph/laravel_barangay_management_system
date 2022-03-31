@@ -10,6 +10,9 @@ use App\Models\PersonalData;
 use App\Models\User;
 use App\Models\Barangay;
 
+use App\Exports\InhabitantExport;
+use Excel;
+
 class InhabitantsReportController extends Controller
 {
 
@@ -53,6 +56,16 @@ class InhabitantsReportController extends Controller
 
     //     return $return;
     // }
+
+    public function exportIntoExcel(Request $request) {
+        $params = $request->input();
+        return Excel::download(new InhabitantExport($params), 'inhabitant-report.xlsx');
+    }
+
+    public function exportIntoCSV(Request $request) {
+        $params = $request->input();
+        return Excel::download(new InhabitantExport($params), 'inhabitant-report.csv');
+    }
 
     public function getInhabitantsReport(Request $request) {
         $population = $this->getResidencePopulation($request->barangay_id);
@@ -196,7 +209,7 @@ class InhabitantsReportController extends Controller
             $residences = $residences->where('barangay_id', $barangay);
         }
         $residences = $residences->join("other_data", "other_data.user_id", "users.id")
-        ->where("is_voter", 1);
+        ->whereIn("is_voter", [1, 3]);
         
         return $residences->count();
     }
