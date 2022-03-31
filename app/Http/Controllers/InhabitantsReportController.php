@@ -150,10 +150,10 @@ class InhabitantsReportController extends Controller
                 case ($age <= 24 && $age >= 15):
                     $groups['youth']++;
                 break;
-                case ($age <= 64 && $age >= 25):
+                case ($age <= 59 && $age >= 25):
                     $groups['adults']++;
                 break;
-                case ($age >= 65):
+                case ($age >= 60):
                     $groups['seniors']++;
                 break;
             }
@@ -301,12 +301,12 @@ class InhabitantsReportController extends Controller
                     ),
                     array(
                         'description' => 'Adults',
-                        'sub_description' => '25 - 64',
+                        'sub_description' => '25 - 59',
                         'count' => $params['ages']['adults']
                     ),
                     array(
                         'description' => 'Seniors',
-                        'sub_description' => '65 - above',
+                        'sub_description' => '60 - above',
                         'count' => $params['ages']['seniors']
                     ),
                 ]

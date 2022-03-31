@@ -116,8 +116,8 @@ class InhabitantExport implements FromCollection, WithHeadings
                     $ageGroup = [
                         1 => $age <= 14 && $age >= 0,
                         2 => $age <= 24 && $age >= 15,
-                        3 => $age <= 64 && $age >= 25,
-                        4 => $age >= 65,
+                        3 => $age <= 59 && $age >= 25,
+                        4 => $age >= 60,
                     ];
                     foreach ($ages as $key => $value) {
                         if ($ageGroup[$value]) {
