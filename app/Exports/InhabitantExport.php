@@ -7,10 +7,13 @@ use Carbon\Carbon;
 use App\Models\IncidentData;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 
 use App\Models\User;
 
-class InhabitantExport implements FromCollection, WithHeadings
+class InhabitantExport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
 {
     protected $params;
     
@@ -154,6 +157,18 @@ class InhabitantExport implements FromCollection, WithHeadings
             // 'Employed',
             // 'Unemployed',
             // 'Voters',
+        ];
+    }
+
+    public function registerEvents():array{
+        return [
+            AfterSheet::class => function(AfterSheet $event) {
+                $event->sheet->getStyle('A1:J1')->applyFromArray([
+                    'font' => [
+                        'bold' => true
+                    ]
+                ]);
+            }
         ];
     }
 

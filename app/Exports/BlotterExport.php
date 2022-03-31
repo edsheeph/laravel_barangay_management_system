@@ -6,8 +6,11 @@ use Carbon\Carbon;
 use App\Models\BlotterAndComplain;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class BlotterExport implements FromCollection, WithHeadings
+class BlotterExport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
 {
     protected $params;
     
@@ -123,6 +126,18 @@ class BlotterExport implements FromCollection, WithHeadings
             'Date Reported',
             'Date Resolved',
             'Status'
+        ];
+    }
+
+    public function registerEvents():array{
+        return [
+            AfterSheet::class => function(AfterSheet $event) {
+                $event->sheet->getStyle('A1:K1')->applyFromArray([
+                    'font' => [
+                        'bold' => true
+                    ]
+                ]);
+            }
         ];
     }
 }

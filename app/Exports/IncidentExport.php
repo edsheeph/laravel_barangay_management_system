@@ -6,8 +6,11 @@ use Carbon\Carbon;
 use App\Models\IncidentData;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class IncidentExport implements FromCollection, WithHeadings
+class IncidentExport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents
 {
     protected $params;
     
@@ -120,6 +123,18 @@ class IncidentExport implements FromCollection, WithHeadings
             'Date Reported',
             'Date Resolved',
             'Status'
+        ];
+    }
+
+    public function registerEvents():array{
+        return [
+            AfterSheet::class => function(AfterSheet $event) {
+                $event->sheet->getStyle('A1:L1')->applyFromArray([
+                    'font' => [
+                        'bold' => true
+                    ]
+                ]);
+            }
         ];
     }
 }
