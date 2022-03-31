@@ -304,7 +304,8 @@ Route::group(['middleware' => ['auth:api']], function() {
 
     ####Report
     Route::get('report/inhabitants', [InhabitantsReportController::class, 'getInhabitantsReport']);
-    
+    Route::get('report/inhabitants/export-csv', [InhabitantsReportController::class, 'exportIntoCSV']);
+    Route::get('report/inhabitants/export-excel', [InhabitantsReportController::class, 'exportIntoExcel']);
     Route::get('report/incidents', [IncidentController::class, 'getIncidentReport']);
     Route::get('report/blotters', [BlotterAndComplainController::class, 'getBlotterReport']);
 
@@ -334,8 +335,7 @@ Route::group(['middleware' => ['auth:api']], function() {
 });
 
 
-Route::get('report/inhabitants/export-csv', [InhabitantsReportController::class, 'exportIntoCSV']);
-Route::get('report/inhabitants/export-excel', [InhabitantsReportController::class, 'exportIntoExcel']);
+
 
 
 
