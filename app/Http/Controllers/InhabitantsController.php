@@ -119,7 +119,7 @@ class InhabitantsController extends Controller
             }
 
             if (!empty($request->sort) && !empty($request->order)) {
-                $peronalDataList = $peronalDataList->orderBy("personal_data.".$request->sort, strtoupper($request->order));
+                $peronalDataList = $peronalDataList->orderBy("personal_data.".strtolower($request->sort), strtoupper($request->order));
             } else {
                 $peronalDataList = $peronalDataList->orderBy("residence_application.status_id", "DESC");
                 $peronalDataList = $peronalDataList->orderBy("personal_data.id", "DESC");
