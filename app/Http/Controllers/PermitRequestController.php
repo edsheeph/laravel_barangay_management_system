@@ -283,9 +283,13 @@ class PermitRequestController extends Controller
         $historyData = $historyData->with('category','barangay','permitType','user','paymentMethod','status');
         $historyData = $historyData->join('users', 'users.id', 'permit_history.user_id');
         if (!empty($request->sort) && !empty($request->order)) {
-            $historyData = $historyData->orderBy("users.".$request->sort, strtoupper($request->order));
+            if ($request->sort=='id') {
+                $historyData = $historyData->orderBy("permit_history.id", "asc");
+            } else {
+                $historyData = $historyData->orderBy("users.".$request->sort, strtoupper($request->order));
+            }
         } else {
-            $historyData = $historyData->orderBy("users.id", "asc");
+            $historyData = $historyData->orderBy("permit_history.id", "desc");
         }
         // if(!empty($request['sort'])){
         //     switch($request['sort']){

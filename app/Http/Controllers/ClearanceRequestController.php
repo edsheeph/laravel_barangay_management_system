@@ -264,9 +264,13 @@ class ClearanceRequestController extends Controller
         $historyData = $historyData->with('category','barangay','clearanceType','user','paymentMethod','status');
         $historyData = $historyData->join('users', 'users.id', 'clearance_history.user_id');
         if (!empty($request->sort) && !empty($request->order)) {
-            $historyData = $historyData->orderBy("users.".$request->sort, strtoupper($request->order));
+            if ($request->sort=='id') {
+                $historyData = $historyData->orderBy("clearance_history.id", "asc");
+            } else {
+                $historyData = $historyData->orderBy("users.".$request->sort, strtoupper($request->order));
+            }
         } else {
-            $historyData = $historyData->orderBy("users.id", "asc");
+            $historyData = $historyData->orderBy("clearance_history.id", "desc");
         }
         // if(!empty($request['order'])){
         //     switch($request['order']){
