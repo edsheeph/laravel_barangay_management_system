@@ -241,10 +241,15 @@ class ClearanceRequestController extends Controller
 
     public function list(Request $request){
 
-        $historyData = ClearanceHistory::where("user_id","!=","");
+        $historyData = ClearanceHistory::select(
+            'clearance_history.*', 
+            'users.last_name', 
+            'users.middle_name', 
+            'users.first_name'
+        )->where("clearance_history.user_id","!=","");
 
         if(!empty($request['barangay_id'])){
-            $historyData = $historyData->where("barangay_id",$request['barangay_id']);
+            $historyData = $historyData->where("clearance_history.barangay_id",$request['barangay_id']);
         }
         if(!empty($request['category_id'])){
             $historyData = $historyData->where("category_id",$request['category_id']);
@@ -253,18 +258,25 @@ class ClearanceRequestController extends Controller
             $historyData = $historyData->where("clearance_type_id",$request['clearance_type_id']);
         }
         if(!empty($request['user_id'])){
-            $historyData = $historyData->where("user_id",$request['user_id']);
+            $historyData = $historyData->where("clearance_history.user_id",$request['user_id']);
         }
 
         $historyData = $historyData->with('category','barangay','clearanceType','user','paymentMethod','status');
-        if(!empty($request['sort'])){
-            switch($request['sort']){
-
-                case "desc":
-                    $historyData = $historyData->orderByDesc("id");
-                break;
-            }
+        $historyData = $historyData->join('users', 'users.id', 'clearance_history.user_id');
+        if (!empty($request->sort) && !empty($request->order)) {
+            $historyData = $historyData->orderBy("users.".$request->sort, strtoupper($request->order));
+        } else {
+            $historyData = $historyData->orderBy("users.id", "asc");
         }
+        // if(!empty($request['order'])){
+        //     switch($request['order']){
+        //         case "asc":
+        //             $historyData = $historyData->orderByDesc("id");
+        //         case "desc":
+        //             $historyData = $historyData->orderByDesc("id");
+        //         break;
+        //     }
+        // }
         $historyData = $historyData->get();
 
         $return = array();

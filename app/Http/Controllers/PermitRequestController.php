@@ -260,10 +260,15 @@ class PermitRequestController extends Controller
 
     public function list(Request $request){
 
-        $historyData = PermitHistory::where("user_id","!=","");
+        $historyData = PermitHistory::select(
+            'permit_history.*', 
+            'users.last_name', 
+            'users.middle_name', 
+            'users.first_name'
+        )->where("user_id","!=","");
 
         if(!empty($request['barangay_id'])){
-            $historyData = $historyData->where("barangay_id",$request['barangay_id']);
+            $historyData = $historyData->where("permit_history.barangay_id",$request['barangay_id']);
         }
         if(!empty($request['category_id'])){
             $historyData = $historyData->where("category_id",$request['category_id']);
@@ -276,14 +281,20 @@ class PermitRequestController extends Controller
         }
 
         $historyData = $historyData->with('category','barangay','permitType','user','paymentMethod','status');
-        if(!empty($request['sort'])){
-            switch($request['sort']){
-
-                case "desc":
-                    $historyData = $historyData->orderByDesc("id");
-                break;
-            }
+        $historyData = $historyData->join('users', 'users.id', 'permit_history.user_id');
+        if (!empty($request->sort) && !empty($request->order)) {
+            $historyData = $historyData->orderBy("users.".$request->sort, strtoupper($request->order));
+        } else {
+            $historyData = $historyData->orderBy("users.id", "asc");
         }
+        // if(!empty($request['sort'])){
+        //     switch($request['sort']){
+
+        //         case "desc":
+        //             $historyData = $historyData->orderByDesc("id");
+        //         break;
+        //     }
+        // }
         $historyData = $historyData->get();
 
         $return = array();

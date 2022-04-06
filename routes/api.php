@@ -203,6 +203,7 @@ Route::group(['middleware' => ['auth:api']], function() {
 
     Route::get('permit/payment/{id}', [PermitRequestController::class, 'getPermitPaymentData']);
     Route::post('permit/request', [PermitRequestController::class, 'generatePermit']);
+    Route::get('permit/request/list', [PermitRequestController::class, 'list']);
 
     Route::post('permit/request/approve', [PermitRequestController::class, 'approveRequest']);
     Route::post('permit/request/layout/update', [PermitLayoutController::class, 'updateRequestLayout']);
