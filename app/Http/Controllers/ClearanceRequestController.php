@@ -261,6 +261,14 @@ class ClearanceRequestController extends Controller
             $historyData = $historyData->where("clearance_history.user_id",$request['user_id']);
         }
 
+        if ($request->search) {
+            $historyData = $historyData->where(function($q) use($request){
+                $q->orWhereRaw("clearance_history.application_id LIKE ?","%".$request->search."%");
+                $q->orWhereRaw("clearance_history.reference_number LIKE ?","%".$request->search."%");
+                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(users.last_name,','),users.first_name,users.first_name) LIKE ?","%".$request->search."%");
+            });
+        }
+
         $historyData = $historyData->with('category','barangay','clearanceType','user','paymentMethod','status');
         $historyData = $historyData->join('users', 'users.id', 'clearance_history.user_id');
         if (!empty($request->sort) && !empty($request->order)) {

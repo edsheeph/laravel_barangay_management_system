@@ -280,6 +280,14 @@ class PermitRequestController extends Controller
             $historyData = $historyData->where("user_id",$request['user_id']);
         }
 
+        if ($request->search) {
+            $historyData = $historyData->where(function($q) use($request){
+                $q->orWhereRaw("permit_history.application_id LIKE ?","%".$request->search."%");
+                $q->orWhereRaw("permit_history.reference_number LIKE ?","%".$request->search."%");
+                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(users.last_name,','),users.first_name,users.first_name) LIKE ?","%".$request->search."%");
+            });
+        }
+
         $historyData = $historyData->with('category','barangay','permitType','user','paymentMethod','status');
         $historyData = $historyData->join('users', 'users.id', 'permit_history.user_id');
         if (!empty($request->sort) && !empty($request->order)) {
