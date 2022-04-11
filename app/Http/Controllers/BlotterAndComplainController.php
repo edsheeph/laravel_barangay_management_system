@@ -190,6 +190,16 @@ class BlotterAndComplainController extends Controller
             $blotterList = $blotterList->where("blotter_and_complain_data.blotter_type_id", $request->blotter_type_id);
         }
 
+        if (!empty($request->sort) && !empty($request->order)) {
+            if ($request->sort=='id') {
+                $blotterList = $blotterList->orderBy("blotter_and_complain_data.id", strtoupper($request->order));
+            } else {
+                $blotterList = $blotterList->orderBy("users.".$request->sort, strtoupper($request->order));
+            }
+        } else {
+            $blotterList = $blotterList->orderBy("blotter_and_complain_data.id", "desc");
+        }
+
         $blotterList = $blotterList->paginate(
             (int) $request->get('per_page', 10),
             ['*'],

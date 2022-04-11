@@ -154,6 +154,16 @@ class IncidentController extends Controller
             $incidentList = $incidentList->where("users.barangay_id", $request->barangay_id);
         }
 
+        if (!empty($request->sort) && !empty($request->order)) {
+            if ($request->sort=='id') {
+                $incidentList = $incidentList->orderBy("incident_data.id", strtoupper($request->order));
+            } else {
+                $incidentList = $incidentList->orderBy("users.".$request->sort, strtoupper($request->order));
+            }
+        } else {
+            $incidentList = $incidentList->orderBy("incident_data.id", "desc");
+        }
+
         $incidentList = $incidentList->paginate(
             (int) $request->get('per_page', 10),
             ['*'],
