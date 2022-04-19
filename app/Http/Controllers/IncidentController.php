@@ -155,10 +155,10 @@ class IncidentController extends Controller
         }
 
         if (!empty($request->sort) && !empty($request->order)) {
-            if ($request->sort=='id') {
-                $incidentList = $incidentList->orderBy("incident_data.id", strtoupper($request->order));
-            } else {
+            if ($request->sort=='last_name' || $request->sort=='first_name' || $request->sort=='middle_name') {
                 $incidentList = $incidentList->orderBy("users.".$request->sort, strtoupper($request->order));
+            } else {
+                $incidentList = $incidentList->orderBy("incident_data.".$request->sort, strtoupper($request->order));
             }
         } else {
             $incidentList = $incidentList->orderBy("incident_data.id", "desc");
