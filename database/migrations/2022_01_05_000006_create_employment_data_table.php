@@ -21,7 +21,7 @@ class CreateEmploymentDataTable extends Migration
             $table->unsignedBigInteger('work_affiliation_id')->nullable();
             $table->char('place_work_type', 1);
             $table->string('place_work_type_specify')->nullable();
-            $table->char("employment_type", 1);
+            $table->char("employment_type", 1)->nullable();
             $table->string("employment");
             $table->string("employment_address");
             $table->double("monthly_income", 20, 2);
