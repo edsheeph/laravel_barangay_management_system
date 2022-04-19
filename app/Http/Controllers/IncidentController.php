@@ -219,7 +219,7 @@ class IncidentController extends Controller
         }
 
         if ($request->incident_type_id) {
-            $userList = $userList->where("incident_data.incident_type_id", $request->incident_type_id);
+            $incidentList = $incidentList->where("incident_data.incident_type_id", $request->incident_type_id);
         }
 
         $incidentList = $incidentList->paginate(
