@@ -117,7 +117,7 @@ class BlotterAndComplainController extends Controller
 
         if ($request->search) {
             $userList = $userList->where(function($q) use($request){
-                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(last_name,','),first_name,first_name) LIKE ?","%".$request->search."%");
+                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(users.last_name,','),users.first_name,users.first_name) LIKE ?","%".$request->search."%");
             });
         }
 
@@ -177,7 +177,7 @@ class BlotterAndComplainController extends Controller
 
         if ($request->search) {
             $blotterList = $blotterList->where(function($q) use($request){
-                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(last_name,','),first_name,first_name) LIKE ?","%".$request->search."%");
+                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(users.last_name,','),users.first_name,users.first_name) LIKE ?","%".$request->search."%");
                 $q->orWhereRaw("blotter_and_complain_data.blotter_no LIKE ?","%".$request->search."%");
             });
         }

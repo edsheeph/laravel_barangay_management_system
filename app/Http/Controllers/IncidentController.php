@@ -141,7 +141,7 @@ class IncidentController extends Controller
 
         if ($request->search) {
             $incidentList = $incidentList->where(function($q) use($request){
-                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(last_name,','),first_name,first_name) LIKE ?","%".$request->search."%");
+                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(users.last_name,','),users.first_name,users.first_name) LIKE ?","%".$request->search."%");
                 $q->orWhereRaw("incident_data.incident_no LIKE ?","%".$request->search."%");
             });
         }

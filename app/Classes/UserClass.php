@@ -34,7 +34,7 @@ class UserClass
 
         if ($request->search) {
             $userList = $userList->where(function($q) use($request){
-                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(last_name,','),first_name,first_name) LIKE ?","%".$request->search."%");
+                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(users.last_name,','),users.first_name,users.first_name) LIKE ?","%".$request->search."%");
             });
         }
 
