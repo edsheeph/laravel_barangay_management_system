@@ -118,11 +118,23 @@ class InhabitantsController extends Controller
                 $peronalDataList = $peronalDataList->where("users.barangay_id", $request->barangay_id);
             }
 
+            // if (!empty($request->sort) && !empty($request->order)) {
+            //     $peronalDataList = $peronalDataList->orderBy("personal_data.".strtolower($request->sort), strtoupper($request->order));
+            // } else {
+            //     $peronalDataList = $peronalDataList->orderBy("residence_application.status_id", "DESC");
+            //     $peronalDataList = $peronalDataList->orderBy("personal_data.id", "DESC");
+            // }
+
             if (!empty($request->sort) && !empty($request->order)) {
-                $peronalDataList = $peronalDataList->orderBy("personal_data.".strtolower($request->sort), strtoupper($request->order));
-            } else {
-                $peronalDataList = $peronalDataList->orderBy("residence_application.status_id", "DESC");
-                $peronalDataList = $peronalDataList->orderBy("personal_data.id", "DESC");
+                if ($request->sort=='last_name' || $request->sort=='first_name') {
+                    $peronalDataList = $peronalDataList->orderBy("personal_data.".$request->sort, strtoupper($request->order));
+                }
+                if ($request->sort=='resident_id') {
+                    $peronalDataList = $peronalDataList->orderBy("personal_data.".$request->sort, strtoupper($request->order));
+                }
+                if ($request->sort=='barangay_desc') {
+                    $peronalDataList = $peronalDataList->orderBy("barangays.description", strtoupper($request->order));
+                }
             }
 
             $peronalDataList = $peronalDataList->paginate(

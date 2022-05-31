@@ -41,6 +41,15 @@ class AnnouncementClass
             });
         }
 
+        if (!empty($request->sort) && !empty($request->order)) {
+            if ($request->sort=='title') {
+                $announcementList = $announcementList->orderBy("announcements.".$request->sort, strtoupper($request->order));
+            }
+            if ($request->sort=='created_at') {
+                $announcementList = $announcementList->orderBy("announcements.".$request->sort, strtoupper($request->order));
+            }
+        }
+
         if ($request->barangay_id) {
             $announcementList = $announcementList->whereRaw('FIND_IN_SET(?,announcements.barangay_id)', [$request->barangay_id]);
         }
