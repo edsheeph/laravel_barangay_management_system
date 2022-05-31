@@ -170,7 +170,7 @@ class BlotterAndComplainController extends Controller
             'blotter_and_complain_data.blotter_date_resolved'
         )
         ->leftJoin('users', 'users.id', 'blotter_and_complain_data.blotter_complainant_id')
-        ->leftJoin('users', 'users.id', 'blotter_and_complain_data.blotter_complainee_id')
+        // ->leftJoin('users', 'users.id', 'blotter_and_complain_data.blotter_complainee_id')
         ->leftJoin('blotter_status', 'blotter_status.id', 'blotter_and_complain_data.blotter_status_id')
         ->leftJoin('blotter_type', 'blotter_type.id', 'blotter_and_complain_data.blotter_type_id')
         ->leftJoin('permit_payment_method', 'permit_payment_method.id', 'blotter_and_complain_data.blotter_payment_method_id')
