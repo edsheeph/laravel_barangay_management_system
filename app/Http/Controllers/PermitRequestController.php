@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use PDF;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -20,6 +20,7 @@ use App\Models\PermitSequence;
 use Illuminate\Http\Response;
 use App\Classes\Permit\PermitRequestClass;
 use App\Classes\Permit\BusinessPermitClass;
+use App\Models\ClearanceTemplateImage;
 
 class PermitRequestController extends Controller
 {
@@ -536,28 +537,44 @@ class PermitRequestController extends Controller
     }
 
     public function printPermit(Request $request){
+        $imageData = ClearanceTemplateImage::first();
 
-        $permitClass = new PermitRequestClass;
-        $permitClass->generatePermitLayout();
-        # dd(public_path('Appdividend.docx'));
-        $path = public_path('Appdividend.docx');
-        #return Storage::download('helloWorld.docx');
-        $headers = array(
-            'Content-Type' => 'application/vnd.msword',
+        $background = $imageData->file_path.'/'.$imageData->file_name;
+        $background = str_replace("public/","/",$background);
 
+        $data = array(
+            "date" => "date",
+            "day" => date('d'),
+            "month" => date('F Y'),
+            'template' => $background
         );
 
-       # $filename = 'img.png';
-        $fsize = filesize($path);
+        $pdf = PDF::loadView('report.permit.index', $data);
 
-        $handle = fopen($path, "rb");
-        $contents = fread($handle, $fsize);
-        fclose($handle);
+        // return $pdf->download('permit.pdf');
+        return $pdf->download('permit.pdf')->getOriginalContent();
 
-        header('content-type: application/vnd.msword');
-        header('Content-Length: ' . $fsize);
+    //     $permitClass = new PermitRequestClass;
+    //     $permitClass->generatePermitLayout();
+    //     # dd(public_path('Appdividend.docx'));
+    //     $path = public_path('Appdividend.docx');
+    //     #return Storage::download('helloWorld.docx');
+    //     $headers = array(
+    //         'Content-Type' => 'application/vnd.msword',
 
-        return $contents;
+    //     );
+
+    //    # $filename = 'img.png';
+    //     $fsize = filesize($path);
+
+    //     $handle = fopen($path, "rb");
+    //     $contents = fread($handle, $fsize);
+    //     fclose($handle);
+
+    //     header('content-type: application/vnd.msword');
+    //     header('Content-Length: ' . $fsize);
+
+    //     return $contents;
 
         #return response()->download($path , "Appdividend.docx",$headers);
 
