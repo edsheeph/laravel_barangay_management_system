@@ -212,6 +212,7 @@ Route::group(['middleware' => ['auth:api']], function() {
 
 
     Route::post('permit/request/print', [PermitRequestController::class, 'printPermit']);
+    Route::post('permint/printPDF', [PermitRequestController::class, 'printPermitPDF']);
 
     #Clearance Category
     Route::post('clearance/category', [ClearanceCategoryController::class, 'store']);

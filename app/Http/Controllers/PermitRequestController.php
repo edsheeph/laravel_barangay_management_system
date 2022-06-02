@@ -536,7 +536,7 @@ class PermitRequestController extends Controller
         }
     }
 
-    public function printPermit(Request $request){
+    public function printPermitPDF(Request $request){
         $imageData = ClearanceTemplateImage::first();
 
         $background = $imageData->file_path.'/'.$imageData->file_name;
@@ -553,28 +553,31 @@ class PermitRequestController extends Controller
 
         // return $pdf->download('permit.pdf');
         return $pdf->download('permit.pdf')->getOriginalContent();
+    }
 
-    //     $permitClass = new PermitRequestClass;
-    //     $permitClass->generatePermitLayout();
-    //     # dd(public_path('Appdividend.docx'));
-    //     $path = public_path('Appdividend.docx');
-    //     #return Storage::download('helloWorld.docx');
-    //     $headers = array(
-    //         'Content-Type' => 'application/vnd.msword',
+    public function printPermit(Request $request){
 
-    //     );
+        $permitClass = new PermitRequestClass;
+        $permitClass->generatePermitLayout();
+        # dd(public_path('Appdividend.docx'));
+        $path = public_path('Appdividend.docx');
+        #return Storage::download('helloWorld.docx');
+        $headers = array(
+            'Content-Type' => 'application/vnd.msword',
 
-    //    # $filename = 'img.png';
-    //     $fsize = filesize($path);
+        );
 
-    //     $handle = fopen($path, "rb");
-    //     $contents = fread($handle, $fsize);
-    //     fclose($handle);
+       # $filename = 'img.png';
+        $fsize = filesize($path);
 
-    //     header('content-type: application/vnd.msword');
-    //     header('Content-Length: ' . $fsize);
+        $handle = fopen($path, "rb");
+        $contents = fread($handle, $fsize);
+        fclose($handle);
 
-    //     return $contents;
+        header('content-type: application/vnd.msword');
+        header('Content-Length: ' . $fsize);
+
+        return $contents;
 
         #return response()->download($path , "Appdividend.docx",$headers);
 
