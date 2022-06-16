@@ -45,6 +45,12 @@ class AlterDataToReligiousTable extends Migration
             [
                 'description' => 'Mormon'
             ],
+            [
+                'description' => 'Born Again Christian'
+            ],
+            [
+                'description' => '----------'
+            ],
         ]);
     }
 
